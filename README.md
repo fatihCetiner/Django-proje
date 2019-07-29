@@ -1,0 +1,2 @@
+# Django-proje
+Staj projem
