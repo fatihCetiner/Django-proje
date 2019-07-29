@@ -1,0 +1,53 @@
+{% extends 'base.html' %}
+
+{% block body %}
+    
+    {# /post/{{post.id}} #}
+    {# {% url 'detail' id=post.id %} #}
+		
+		<div class="container">
+        {% for post in posts %}
+        	<div class="card" style="width: 18rem;">
+  					<div class="card-body">
+              {% if post.image%}
+                <img src="{{ post.image.url }}" class="img-responsive">
+              {% endif%}
+   						 <h5 class="card-title">{{ post.title }}<small>  {{ post.publishing_date | timesince}} önce</small></h5>
+   						 <p class="card-text"> {{ post.content | linebreaks | truncatechars:50 }}</p>
+
+   			 			 <a href="{{post.get_absolute_url}}" class="btn btn-primary">İncele</a>
+               {% if request.user.is_authenticated %}
+   			 			 <a href="{{post.get_update_url}}" class="btn btn-success">Güncelle</a>
+   			 			 <a href="{{post.get_delete_url}}" class="btn btn-danger">Sil</a>
+               {% endif %}
+
+  					</div>
+			</div>
+           
+        {% endfor %}
+
+
+
+      
+
+
+          <div class="pagination">
+    <span class="step-links">
+        {% if posts.has_previous %}
+            <a href="?sayfa={{ posts.previous_page_number }}">Önceki Sayfa</a>
+        {% endif %}
+
+        <span class="current">
+            Sayfa {{ posts.number }} arasında {{ posts.paginator.num_pages }}.
+        </span>
+
+        {% if posts.has_next %}
+            <a href="?sayfa={{ posts.next_page_number }}">İleri</a>
+        {% endif %}
+    </span>
+</div>
+
+
+        </div>
+		
+{% endblock %}
